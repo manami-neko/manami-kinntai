@@ -44,23 +44,7 @@
     }
 }
 
-/* 検索フォーム */
-.search-form {
-    flex: 1;
-    /* 横幅いっぱいに広がる */
-    min-width: 0;
-    max-width: 500px;
-}
 
-.search-form input[type="text"] {
-    width: 100%;
-    padding: 8px 14px;
-    font-size: 24px;
-    border: none;
-    border-radius: 4px;
-    background-color: #FFFFFF;
-
-}
 
 .header-nav__button {
     background-color: #000;
@@ -72,7 +56,8 @@
     white-space: nowrap;
 }
 
-.login-nav__button {
+.login-nav__button,
+.sell__button {
     background-color: #000;
     color: #fff;
     border: none;
@@ -85,7 +70,7 @@
 }
 
 .header-nav__button:hover,
-.login-nav__button:hover {
+.sell__button:hover {
     color: #a9a9a9;
 }
 
@@ -98,26 +83,4 @@
     /* 画像の比率を維持して切り取り */
 }
 
-.comment-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    /* 丸くする */
-    object-fit: cover;
-    /* 画像の比率を維持して切り取り */
-}
 
-.sell__button {
-    width: 100px;
-    font-size: 24px;
-    color: #000000;
-    border-radius: 4px;
-    background-color: #FFFFFF;
-    border: none;
-    cursor: pointer;
-}
-
-.sell__button:hover {
-    background: #a9a9a9;
-    color: #fff;
-}

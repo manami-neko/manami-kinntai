@@ -47,6 +47,7 @@ class FortifyServiceProvider extends ServiceProvider
         );
 
         Fortify::loginView(function (Request $request) {
+            dd($request->all());
             if ($request->is('admin/login')) {
                 return app(\App\Http\Controllers\Admin\UserController::class)->adminLogin();
             }
@@ -84,11 +85,12 @@ class FortifyServiceProvider extends ServiceProvider
         // ログイン後のリダイレクト設定
         Fortify::redirects('login', function ($request) {
             $user = $request->user();
+            dd($user);
             if (!$user) return '/login';
 
             // セッションの role を優先
             $role = session('role', $user->role);
-
+            dd($role);
             return $role === 'admin'
                 ? RouteServiceProvider::ADMIN_HOME
                 : RouteServiceProvider::HOME;

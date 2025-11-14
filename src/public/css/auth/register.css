@@ -5,7 +5,7 @@
 }
 
 .form__button-submit {
-    background: #FF5555;
+    background: #000000;
     color: #FFFFFF;
     border: none;
     cursor: pointer;
@@ -76,7 +76,7 @@
 }
 
 .form__button-submit {
-    background: #FF5555;
+    background: #000000;
     color: #FFFFFF;
     border: none;
     cursor: pointer;
