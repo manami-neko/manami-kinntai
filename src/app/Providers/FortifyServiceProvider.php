@@ -16,9 +16,11 @@ use Laravel\Fortify\Contracts\RegisterResponse;
 use App\Http\Requests\LoginRequest;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
 use App\Providers\RouteServiceProvider;
-
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\LogoutResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,38 @@ class FortifyServiceProvider extends ServiceProvider
                 return redirect('/login');
             }
         });
+
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request)
+            {
+                $user = $request->user();
+                if (!$user) return redirect('/login');
+
+                // セッションの role を優先
+                $role = session('role', $user->role);
+
+                return redirect($role === 'admin'
+                    ? RouteServiceProvider::ADMIN_HOME
+                    : RouteServiceProvider::HOME);
+            }
+        });
+
+
+        // ログアウト後のリダイレクト設定
+        $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
+            public function toResponse($request)
+            {
+                $previousUrl = url()->previous(); // 直前のURLを取得
+
+                // 管理者ログインページから来たなら admin用に戻す
+                if (str_contains($previousUrl, '/admin')) {
+                    return redirect('/admin/login');
+                }
+
+                // それ以外は一般ログインページへ
+                return redirect('/login');
+            }
+        });
     }
 
     /**
@@ -40,17 +74,16 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Fortify::createUsersUsing(CreateNewUser::class);
+
         Fortify::registerView(
             function () {
                 return view('auth.register');
             }
         );
 
-        Fortify::loginView(function (Request $request) {
-            if ($request->is('admin/login')) {
-                return app(\App\Http\Controllers\Admin\UserController::class)->adminLogin();
-            }
-            return app(\App\Http\Controllers\UserController::class)->login();
+        Fortify::loginView(function () {
+            return view('auth.login');
         });
 
 
@@ -63,7 +96,7 @@ class FortifyServiceProvider extends ServiceProvider
             }
         );
 
-        Fortify::authenticateUsing(function ($request) {
+        Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('email', $request->email)->first();
             if ($user && Hash::check($request->password, $user->password)) {
                 // 管理者用 role で認証
@@ -81,31 +114,7 @@ class FortifyServiceProvider extends ServiceProvider
             return null;
         });
 
-        // ログイン後のリダイレクト設定
-        Fortify::redirects('login', function ($request) {
-            $user = $request->user();
-            if (!$user) return '/login';
-
-            // セッションの role を優先
-            $role = session('role', $user->role);
-
-            return $role === 'admin'
-                ? RouteServiceProvider::ADMIN_HOME
-                : RouteServiceProvider::HOME;
-        });
-
-
-        // ログアウト後のリダイレクト設定
-        Fortify::redirects('logout', function ($request) {
-            $previousUrl = url()->previous(); // 直前のURLを取得
-
-            // 管理者ログインページから来たなら admin用に戻す
-            if (str_contains($previousUrl, '/admin')) {
-                return '/admin/login';
-            }
-
-            // それ以外は一般ログインページへ
-            return '/login';
-        });
+        $this->app->bind(FortifyLoginRequest::class, LoginRequest::class);
+        
     }
 }

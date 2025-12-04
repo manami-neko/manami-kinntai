@@ -10,7 +10,7 @@
         <h2>管理者ログイン</h2>
     </div>
 
-    <form class="form" action="/admin/login" method="post" novalidate>
+    <form class="form" action="/login" method="post" novalidate>
         @csrf
         <input type="hidden" name="role" value="admin">
 

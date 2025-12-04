@@ -27,15 +27,15 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 //     ->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
-// 管理者用ログイン
-Route::get('/admin/login', [AdminUserController::class, 'adminLogin'])
-    ->name('admin.login');
-Route::post('/admin/login', [\Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::class, 'store']); // Fortify が処理
+// 管理者用ログイン画面
+Route::get('/admin/login', [AdminUserController::class, 'adminLogin'])->name('admin.login');
+// Route::post('/admin/login', [AuthenticatedSessionController::class, 'store']);
 
-Route::get('/attendance', [AttendanceController::class, 'create']);
 
-Route::get('/register', [UserController::class, 'create']);
+Route::middleware('auth')->group(function () {
+    Route::get('/attendance', [AttendanceController::class, 'create']);
 
-Route::prefix('admin')->group(function () {
-    Route::get('/attendance/list', [AdminAttendanceController::class, 'list'])->name('admin.attendance.list');
+    Route::prefix('admin')->group(function () {
+        Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])->name('admin.attendance.list');
+    });
 });

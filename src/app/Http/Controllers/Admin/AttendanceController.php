@@ -11,4 +11,9 @@ class AttendanceController extends Controller
     {
         return view('admin.login');
     }
+
+    public function index()
+    {
+        return view('admin.list');
+    }
 }
