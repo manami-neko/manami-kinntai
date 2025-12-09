@@ -6,8 +6,9 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
-
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\BreakTimeController;
+
 
 
 
@@ -38,4 +39,19 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index'])->name('admin.attendance.list');
     });
+    // 出勤登録画面
+    Route::get('/attendance', [AttendanceController::class, 'create'])->name('attendance.create');
+
+    // 出勤
+    Route::post('/attendance/start', [AttendanceController::class, 'store'])->name('attendance.start');
+
+    // 退勤
+    Route::patch('/attendance/end', [AttendanceController::class, 'update'])->name('attendance.end');
+
+    // 休憩開始
+    Route::post('/break/start', [BreakTimeController::class, 'store'])->name('break.start');
+
+    // 休憩終了
+    Route::patch('/break/end', [BreakTimeController::class, 'update'])->name('break.end');
+
 });

@@ -19,7 +19,7 @@ class AttendancesTableSeeder extends Seeder
 
         // 3か月分 (例: 2025年10月～12月)
         $startDate = Carbon::create(2025, 10, 1);
-        $endDate = Carbon::create(2025, 12, 31);
+        $endDate = Carbon::create(2025, 12, 1);
 
         // user_id = 1〜6 のユーザーに勤怠を作成
         for ($userId = 1; $userId <= 6; $userId++) {

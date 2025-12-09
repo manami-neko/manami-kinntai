@@ -25,23 +25,50 @@
 
             <div class="header__nav">
                 @auth
-                <form class="form" action="/sell" method="get">
-                    <button class="sell__button">勤怠</button>
-                </form>
-                <form class="form" action="/sell" method="get">
-                    <button class="sell__button">勤怠一覧</button>
-                </form>
-                <form class="form" action="/mypage" method="get">
-                    <button class="header-nav__button">申請
-                    </button>
-                </form>
-                <form class="form" action="{{ route('logout') }}" method="post">
-                    @csrf
-                    <button type="submit" class="header-nav__button">ログアウト</button>
-                </form>
+                    @php
+                        // Attendance が渡っている場合のみ判定
+                        $isFinished = isset($attendance) && $attendance->status === 'finished';
+                    @endphp
+
+                    {{-- 🔽 管理者ヘッダー --}}
+                    @if(Auth::user()->role === 'admin')
+                        <form class="form" action="/admin/attendance/list" method="get">
+                            <button class="header-nav__button">勤怠一覧</button>
+                        </form>
+                        <form class="form" action="/admin/staff/list" method="get">
+                            <button class="header-nav__button">スタッフ一覧</button>
+                        </form>
+                        <form class="form" action="/admin/stamp_correction_request/list" method="get">
+                            <button class="header-nav__button">申請一覧</button>
+                        </form>
+                    @else
+
+                        {{-- 🔽 一般ユーザーヘッダー --}}
+                        @if($isFinished)
+                            <form class="form" action="/attendance/list" method="get">
+                                <button class="header-nav__button">今月の出勤一覧</button>
+                            </form>
+                            <form class="form" action="/stamp_correction_request/list" method="get">
+                                <button class="header-nav__button">申請一覧</button>
+                            </form>
+                        @else
+                            <form class="form" action="/attendance" method="get">
+                                <button class="sell__button">勤怠</button>
+                            </form>
+                            <form class="form" action="/attendance/list" method="get">
+                                <button class="sell__button">勤怠一覧</button>
+                            </form>
+                            <form class="form" action="stamp_correction_request/list" method="get">
+                                <button class="header-nav__button">申請</button>
+                            </form>
+                        @endif
+                    @endif
+                    {{-- 共通：ログアウト --}}
+                    <form class="form" action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="header-nav__button">ログアウト</button>
+                    </form>
                 @endauth
-
-
             </div>
             @endunless
         </div>

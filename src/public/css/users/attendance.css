@@ -1,0 +1,91 @@
+/* ===== 背景（レイアウト側で暗くする場合） ===== */
+/* body {
+    background: #1a1a1a;
+} */
+
+/* ===== 中央カード ===== */
+.attendance-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 70px 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+/* ===== ラベル（勤務前・勤務中・休憩中・勤務終了） ===== */
+.status-label {
+    display: inline-block;
+    padding: 6px 18px;
+    background: #C8C8C8;
+    color: #000000;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-bottom: 25px;
+}
+
+/* ===== 日付 ===== */
+.date {
+    font-size: 40px;
+    margin-bottom: 12px;
+    color: #000000;
+}
+
+/* ===== 時刻 ===== */
+.time {
+    font-size: 80px;
+    font-weight: bold;
+    margin-bottom: 35px;
+    color: #000000;
+}
+
+/* ===== ボタン共通 ===== */
+button {
+    border: none;
+    cursor: pointer;
+}
+
+/* ===== 黒いメインボタン ===== */
+.btn-main {
+    width: 180px;
+    background: #000000;
+    color: #fff;
+    font-size: 18px;
+    padding: 12px 0;
+    border-radius: 6px;
+}
+
+.btn-main:hover {
+    opacity: 0.85;
+}
+
+/* ===== 白いサブボタン ===== */
+.btn-sub {
+    width: 180px;
+    background: #fff;
+    color: #000000;
+    font-size: 18px;
+    padding: 12px 0;
+    border: 1px solid #000000;
+    border-radius: 6px;
+}
+
+.btn-sub:hover {
+    background: #f0f0f0;
+}
+
+/* ===== ボタン横並び ===== */
+.btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* ===== 退勤後テキスト ===== */
+.text-info {
+    margin-top: 60px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #000000;
+    line-height: 1.6em;
+}
