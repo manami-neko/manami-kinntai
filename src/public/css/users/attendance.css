@@ -1,7 +1,6 @@
-/* ===== 背景（レイアウト側で暗くする場合） ===== */
-/* body {
-    background: #1a1a1a;
-} */
+body {
+    background-color: #f6f6f6;
+}
 
 /* ===== 中央カード ===== */
 .attendance-container {
