@@ -1,0 +1,104 @@
+/* 背景 */
+main {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
+/* 白いカード */
+.attendance-list {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 6px;
+}
+
+.attendance-list__title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    position: relative;
+    padding-left: 30px;
+}
+
+.attendance-list__title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 40px;
+    background: #000000;
+}
+
+.attendance-list__month {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 25px;
+}
+
+.month-btn {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #737373;
+    text-decoration: none;
+}
+
+.month-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.attendance-table thead th {
+    padding: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #737373;
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.attendance-table tbody td {
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 2px solid #E1E1E1;
+    color: #737373;
+}
+
+.attendance-table a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.attendance-table a:hover {
+    text-decoration: underline;
+}
+
+.attendance-table tbody tr {
+    height: 38px;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .attendance-list {
+        padding: 20px;
+    }
+
+    .attendance-table {
+        font-size: 12px;
+    }
+}

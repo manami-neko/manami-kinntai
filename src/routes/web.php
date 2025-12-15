@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\BreakTimeController;
+use App\Http\Controllers\CorrectionRequestController;
 
 
 
@@ -53,5 +54,11 @@ Route::middleware('auth')->group(function () {
 
     // 休憩終了
     Route::patch('/break/end', [BreakTimeController::class, 'update'])->name('break.end');
+
+    Route::get('/attendance/list', [AttendanceController::class, 'index']);
+
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show']);
+
+    Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'userList']);
 
 });

@@ -58,7 +58,7 @@
                             <form class="form" action="/attendance/list" method="get">
                                 <button class="sell__button">勤怠一覧</button>
                             </form>
-                            <form class="form" action="stamp_correction_request/list" method="get">
+                            <form class="form" action="/stamp_correction_request/list" method="get">
                                 <button class="header-nav__button">申請</button>
                             </form>
                         @endif

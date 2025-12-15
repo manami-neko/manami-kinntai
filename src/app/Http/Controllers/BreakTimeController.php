@@ -10,9 +10,7 @@ class BreakTimeController extends Controller
 {
     public function store(Request $request)
     {
-        $attendance = Attendance::where('user_id', auth()->id())
-                                ->where('day', now()->format('Y-m-d'))
-                                ->first();
+        $attendance = Attendance::where('user_id', auth()->id())->where('day', now()->format('Y-m-d'))->first();
 
         // 勤務状態を休憩へ
         $attendance->update(['status' => 'resting']);
@@ -29,13 +27,9 @@ class BreakTimeController extends Controller
     public function update(Request $request)
     {
         $attendance = Attendance::where('user_id', auth()->id())
-                                ->where('day', now()->format('Y-m-d'))
-                                ->first();
+        ->where('day', now()->format('Y-m-d'))->first();
 
-        $break = BreakTime::where('attendance_id', $attendance->id)
-                           ->whereNull('end')
-                           ->latest()
-                           ->first();
+        $break = BreakTime::where('attendance_id', $attendance->id)->whereNull('end')->latest()->first();
 
         if ($break) {
             $break->update(['end' => now()]);
