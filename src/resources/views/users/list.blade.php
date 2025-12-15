@@ -37,19 +37,28 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($attendances as $attendance)
+            @foreach($dates as $date)
+                @php
+                    $attendance = $attendances[$date->toDateString()] ?? null;
+                @endphp
+
             <tr>
                 <td>
-                    {{ \Carbon\Carbon::parse($attendance->day)->format('m/d') }}
+                     {{ $date->isoFormat('MM/DD(ddd)') }}
                 </td>
                 <td>
-                    {{ $attendance->start ? \Carbon\Carbon::parse($attendance->start)->format('H:i') : '' }}
+                    {{ $attendance && $attendance->start
+                        ? \Carbon\Carbon::parse($attendance->start)->format('H:i')
+                        : '' }}
                 </td>
                 <td>
-                    {{ $attendance->end ? \Carbon\Carbon::parse($attendance->end)->format('H:i') : '' }}
+                    {{ $attendance && $attendance->end
+                    ? \Carbon\Carbon::parse($attendance->end)->format('H:i')
+                    : '' }}
                 </td>
 
                 <td>
+                    @if($attendance)
                     {{ gmdate(
                         'H:i',
                         $attendance->breakTimes->sum(function ($break) {
@@ -60,34 +69,33 @@
                             return 0;
                         })
                     ) }}
+                @endif
                 </td>
 
                 <td>
-                    @if($attendance->start && $attendance->end)
-                        @php
-                            // 出勤〜退勤（秒）
-                            $workSeconds = \Carbon\Carbon::parse($attendance->end)
-                                ->diffInSeconds(\Carbon\Carbon::parse($attendance->start));
+                                    @if($attendance && $attendance->start && $attendance->end)
+                    @php
+                        $workSeconds = \Carbon\Carbon::parse($attendance->end)
+                            ->diffInSeconds(\Carbon\Carbon::parse($attendance->start));
 
-                            // 休憩合計（秒）
-                            $breakSeconds = $attendance->breakTimes->sum(function ($break) {
-                                if ($break->start && $break->end) {
-                                    return \Carbon\Carbon::parse($break->end)
-                                        ->diffInSeconds(\Carbon\Carbon::parse($break->start));
-                                }
-                                return 0;
-                            });
+                        $breakSeconds = $attendance->breakTimes->sum(function ($break) {
+                            if ($break->start && $break->end) {
+                                return \Carbon\Carbon::parse($break->end)
+                                    ->diffInSeconds(\Carbon\Carbon::parse($break->start));
+                            }
+                            return 0;
+                        });
+                    @endphp
 
-                            // 実勤務時間（秒）
-                            $actualWorkSeconds = max(0, $workSeconds - $breakSeconds);
-                        @endphp
+                    {{ gmdate('H:i', max(0, $workSeconds - $breakSeconds)) }}
+                @endif
 
-                        {{ gmdate('H:i', $actualWorkSeconds) }}
-                    @endif
                 </td>
 
                 <td>
+                    @if($attendance)
                     <a href="{{ url('/attendance/detail/'.$attendance->id) }}">詳細</a>
+                @endif
                 </td>
             </tr>
             @endforeach

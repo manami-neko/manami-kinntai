@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class AttendanceController extends Controller
 {
@@ -62,17 +63,21 @@ class AttendanceController extends Controller
     $startOfMonth = $month->copy()->startOfMonth();
     $endOfMonth   = $month->copy()->endOfMonth();
 
-    // 勤怠取得
-    $attendances = Attendance::where('user_id', auth()->id())
+    // 勤怠データ（user × 月）
+    $attendances = Attendance::with('breakTimes')
+        ->where('user_id', auth()->id())
         ->whereBetween('day', [$startOfMonth, $endOfMonth])
-        ->orderBy('day', 'asc')
-        ->get();
+        ->get()
+        ->keyBy('day'); // ← 日付をキーにする
+
+    // 月の日付一覧
+    $dates = CarbonPeriod::create($startOfMonth, $endOfMonth);
 
     // 前月・翌月
     $prevMonth = $month->copy()->subMonth()->format('Y-m');
     $nextMonth = $month->copy()->addMonth()->format('Y-m');
 
-    return view('users.list', compact('attendances','month','prevMonth','nextMonth'));
+    return view('users.list', compact('attendances','month','prevMonth','nextMonth','dates'));
     }
 
     public function show()
