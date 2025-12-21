@@ -1,0 +1,124 @@
+/* 背景 */
+.attendance-detail {
+    background-color: #f6f6f6;
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
+.attendance-show {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* 共通カード */
+.card {
+    max-width: 900px;
+    margin: 0 auto 25px;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 6px;
+}
+
+/* タイトル */
+.attendance-show__title {
+    font-size: 30px;
+    font-weight: bold;
+    position: relative;
+    padding-left: 30px;
+    margin: 0;
+}
+
+.attendance-show__title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 40px;
+    background: #000;
+}
+
+/* テーブル */
+.show-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.show-table th {
+    width: 160px;
+    text-align: left;
+    padding: 18px 10px;
+    font-weight: bold;
+    color: #737373;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.show-table td {
+    padding: 18px 10px;
+    border-bottom: 1px solid #e1e1e1;
+    color: #000;
+}
+
+.show-table th,
+.show-table td {
+    border-bottom: 2px solid #e1e1e1;
+}
+
+/* 日付 */
+.show-cell {
+    font-weight: bold;
+}
+
+/* 時刻表示 */
+.time-box {
+    display: inline-block;
+    min-width: 80px;
+    padding: 6px 10px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+    background: #fff;
+}
+
+.time-box.empty {
+    background: #fafafa;
+}
+
+/* 〜 */
+.tilde {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* 備考 */
+.remark-box {
+    display: inline-block;
+    padding: 10px 14px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* ボタン */
+.attendance-show__button {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: right;
+}
+
+.edit-btn {
+    background: #000;
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    opacity: 0.8;
+}

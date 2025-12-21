@@ -29,12 +29,12 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
         if (Auth::check()) {
-            $attendance = Attendance::where('user_id', Auth::id())
+            $headerAttendance = Attendance::where('user_id', Auth::id())
                 ->where('day', now()->toDateString())
                 ->latest()
                 ->first();
 
-            $view->with('attendance', $attendance);
+            $view->with('headerAttendance', $headerAttendance);
         }
     });
     }

@@ -57,7 +57,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/attendance/list', [AttendanceController::class, 'index']);
 
-    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show']);
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show'])->name('users.show');
+
+    Route::post('/attendance/detail/{id}', [CorrectionRequestController::class, 'store']);
 
     Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'userList']);
 

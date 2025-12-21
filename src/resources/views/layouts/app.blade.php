@@ -27,7 +27,7 @@
                 @auth
                     @php
                         // Attendance が渡っている場合のみ判定
-                        $isFinished = isset($attendance) && $attendance->status === 'finished';
+                        $isFinished = isset($headerAttendance) && $headerAttendance->status === 'finished';
                     @endphp
 
                     {{-- 🔽 管理者ヘッダー --}}

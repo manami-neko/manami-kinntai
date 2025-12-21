@@ -12,4 +12,11 @@ class CorrectionRequestController extends Controller
             return view('users.request');
         }
 
+        public function store()
+        {
+
+            return view('users.show');
+
+        }
+
 }

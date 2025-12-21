@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Auth;
+
 
 class AttendanceController extends Controller
 {
@@ -54,34 +56,43 @@ class AttendanceController extends Controller
 
     public function index(Request $request)
     {
-        // 表示月（指定がなければ今月）
-    $month = $request->input('month')
-        ? Carbon::createFromFormat('Y-m', $request->input('month'))
-        : Carbon::now();
+            // 表示月（指定がなければ今月）
+        $month = $request->input('month')
+            ? Carbon::createFromFormat('Y-m', $request->input('month'))
+            : Carbon::now();
 
-    // 月の開始・終了
-    $startOfMonth = $month->copy()->startOfMonth();
-    $endOfMonth   = $month->copy()->endOfMonth();
+        // 月の開始・終了
+        $startOfMonth = $month->copy()->startOfMonth();
+        $endOfMonth   = $month->copy()->endOfMonth();
 
-    // 勤怠データ（user × 月）
-    $attendances = Attendance::with('breakTimes')
-        ->where('user_id', auth()->id())
-        ->whereBetween('day', [$startOfMonth, $endOfMonth])
-        ->get()
-        ->keyBy('day'); // ← 日付をキーにする
+        // 勤怠データ（user × 月）
+        $attendances = Attendance::with('breakTimes')
+            ->where('user_id', auth()->id())
+            ->whereBetween('day', [$startOfMonth, $endOfMonth])
+            ->get()
+            ->keyBy('day'); // ← 日付をキーにする
 
-    // 月の日付一覧
-    $dates = CarbonPeriod::create($startOfMonth, $endOfMonth);
+        // 月の日付一覧
+        $dates = CarbonPeriod::create($startOfMonth, $endOfMonth);
 
-    // 前月・翌月
-    $prevMonth = $month->copy()->subMonth()->format('Y-m');
-    $nextMonth = $month->copy()->addMonth()->format('Y-m');
+        // 前月・翌月
+        $prevMonth = $month->copy()->subMonth()->format('Y-m');
+        $nextMonth = $month->copy()->addMonth()->format('Y-m');
 
-    return view('users.list', compact('attendances','month','prevMonth','nextMonth','dates'));
+        return view('users.list', compact('attendances','month','prevMonth','nextMonth','dates'));
     }
 
-    public function show()
+    public function show($id)
     {
-        return view('users.show');
+        $attendance = Attendance::with([
+            'user',
+            'breakTimes',
+            'corrections.breakCorrections'
+        ])->where('id', $id)
+        ->where('user_id', Auth::id())
+        ->firstOrFail();
+
+        return view('users.show', compact('attendance'));
     }
 }
+

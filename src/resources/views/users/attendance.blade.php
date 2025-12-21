@@ -58,7 +58,7 @@
         <form action="{{ route('break.end') }}" method="POST">
     @csrf
     @method('PATCH')
-    <button class="btn-main">休憩終了</button>
+    <button class="btn-main">休憩戻</button>
 </form>
 
 
@@ -66,7 +66,7 @@
          ★ 退勤後 ＝ finished
        ========================= --}}
     @elseif ($attendance->status === 'finished')
-        <div class="status-label">勤務終了</div>
+        <div class="status-label">退勤済</div>
 
         <div class="date">{{ $today }} ({{ now()->isoFormat('dd') }})</div>
         <div class="time">{{ now()->format('H:i') }}</div>
