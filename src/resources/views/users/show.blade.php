@@ -61,6 +61,25 @@
                 </tr>
             @endforeach
 
+            @php
+                $newIndex = $attendance->breakTimes->count();
+            @endphp
+
+<tr>
+    <th>休憩{{ $newIndex + 1 }}</th>
+    <td>
+        <input type="text"
+            name="breaks[{{ $newIndex }}][start]"
+            value="{{ old("breaks.$newIndex.start") }}">
+    </td>
+    <td>〜</td>
+    <td>
+        <input type="text"
+            name="breaks[{{ $newIndex }}][end]"
+            value="{{ old("breaks.$newIndex.end") }}">
+    </td>
+</tr>
+
             {{-- 備考 --}}
             <tr>
                 <th>備考</th>
