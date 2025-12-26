@@ -16,7 +16,6 @@
     {{-- 詳細カード --}}
     <form action="{{ route('users.show', $attendance->id) }}" method="post" class="card attendance-show__card">
         @csrf
-        @method('PATCH')
     
         <table class="show-table">
 
@@ -66,7 +65,8 @@
             <tr>
                 <th>備考</th>
                 <td colspan="3">
-                    <input tyep="text" name="note">{{ old('note', optional($attendance->corrections->last())->note) }}</input>
+                    <input type="text" name="note"
+                    value="{{ old('note', optional($attendance->corrections->last())->note) }}">
                 </td>
             </tr>
 
@@ -74,9 +74,19 @@
     </div>
 
     {{-- 修正ボタン --}}
+    @if(!$pending)
     <div class="attendance-show__button">
         <button class="edit-btn">修正</button>
     </div>
+    @endif
+
+
+    @if($pending)
+        <p class="pending-message">
+            *承認待ちのため修正できません。
+        </p>
+    @endif
+
 
 </main>
 

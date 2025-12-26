@@ -17,10 +17,10 @@ class CreateCorrectionsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
-            $table->datetime('start');
-            $table->datetime('end')->nullable();
+            $table->time('start');
+            $table->time('end')->nullable();
             $table->text('note');
-            $table->enum('status', ['working', 'resting', 'finished']);
+            $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->timestamps();
         });
     }

@@ -92,7 +92,12 @@ class AttendanceController extends Controller
         ->where('user_id', Auth::id())
         ->firstOrFail();
 
-        return view('users.show', compact('attendance'));
+        // ★ 承認待ちの修正申請があるか判定
+    $pending = $attendance->corrections()
+        ->where('status', 'pending')
+        ->exists();
+
+        return view('users.show', compact('attendance', 'pending'));
     }
 }
 

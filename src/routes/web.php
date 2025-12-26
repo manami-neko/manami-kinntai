@@ -61,6 +61,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/attendance/detail/{id}', [CorrectionRequestController::class, 'store']);
 
-    Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'userList']);
+    Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'userList'])->name('users.request');
+
+    Route::put('/admin/stamp_correction_request/approve/{attendance_correct_request_id}',[AdminCorrectionController::class, 'approve']);
 
 });
