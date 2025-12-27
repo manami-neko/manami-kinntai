@@ -1,6 +1,6 @@
 ## アプリケーション名
 
-coachtech フリマアプリ
+coachtech 勤怠管理アプリ
 
 ## 環境構築
 
@@ -51,8 +51,15 @@ Laravel環境構築
     php artisan test tests/Feature/XxxxTest.php
 
 ユーザーアカウント
+  管理者
+  メールアドレス　admin@example.com
+  パスワード　12345678
 
+  スタッフ
+  メールアドレス　reina.n@coachtech.com
+  パスワード　12345678
 
+　　　　　
 一部変更
 当日には修正できず、次の日以降に修正できる仕様にコーチと決めました
 
