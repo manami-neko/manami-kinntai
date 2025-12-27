@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Correction;
 use Illuminate\Support\Facades\DB;
+use App\Models\Attendance;
+use App\Models\User;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -14,9 +17,22 @@ class AttendanceController extends Controller
         return view('admin.login');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.list');
+       $date = $request->get('date')
+        ? Carbon::parse($request->date)
+        : Carbon::today();
+
+    $attendances = Attendance::with(['user', 'breakTimes'])
+        ->where('day', $date->toDateString())
+        ->get();
+
+    return view('admin.list', [
+        'date' => $date,
+        'attendances' => $attendances,
+        'prevDate' => $date->copy()->subDay()->toDateString(),
+        'nextDate' => $date->copy()->addDay()->toDateString(),
+    ]);
     }
 
     public function approve(Correction $correction)
