@@ -60,7 +60,7 @@
                     <td>{{ gmdate('H:i', $breakSeconds) }}</td>
                     <td>{{ gmdate('H:i', $totalSeconds) }}</td>
                     <td>
-                        <a href="{{ route('users.show', $attendance->id) }}">詳細</a>
+                        <a href="{{ route('admin.attendance.show', $attendance->id) }}">詳細</a>
                     </td>
                 </tr>
             @endforeach

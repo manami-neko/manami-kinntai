@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
@@ -34,6 +35,64 @@ class AttendanceController extends Controller
         'nextDate' => $date->copy()->addDay()->toDateString(),
     ]);
     }
+
+    public function show($id)
+    {
+        $attendance = Attendance::with([
+            'user',
+            'breakTimes',
+            'corrections.breakCorrections'
+        ])->findOrFail($id);
+
+        $pending = $attendance->corrections()
+            ->where('status', 'pending')
+            ->exists();
+
+        return view('admin.show', compact('attendance', 'pending'));
+    }
+
+    public function staffAttendanceList($id, Request $request)
+    {
+        $month = $request->get('month')
+            ? Carbon::parse($request->month . '-01')
+            : Carbon::now()->startOfMonth();
+
+        $user = User::findOrFail($id);
+
+        $attendances = Attendance::with('breakTimes')
+            ->where('user_id', $id)
+            ->whereBetween('day', [
+                $month->copy()->startOfMonth(),
+                $month->copy()->endOfMonth(),
+            ])
+            ->orderBy('day')
+            ->get();
+
+        return view('admin.user', [
+            'user'       => $user,
+            'month'      => $month,
+            'attendances'=> $attendances,
+            'prevMonth'  => $month->copy()->subMonth()->format('Y-m'),
+            'nextMonth'  => $month->copy()->addMonth()->format('Y-m'),
+        ]);
+    }
+
+
+
+
+    public function update(Request $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        $attendance->update([
+            'start' => $request->start,
+            'end'   => $request->end,
+        ]);
+
+        return redirect()
+            ->route('admin.attendance.show', $id);
+    }
+
 
     public function approve(Correction $correction)
     {

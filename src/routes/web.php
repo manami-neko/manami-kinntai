@@ -63,6 +63,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'userList'])->name('users.request');
 
+    Route::get('/admin/attendance/detail/{id}', [AdminAttendanceController::class, 'show'])->name('admin.attendance.show');
+
+    Route::put('/admin/attendance/detail/{id}', [AdminAttendanceController::class, 'update'])->name('admin.attendance.update');
+
+    Route::get('/admin/staff/list', [AdminUserController::class, 'staffList']);
+
+     Route::get('/admin/attendance/staff/{id}', [AdminAttendanceController::class, 'staffAttendanceList'])->name('admin.attendance.user');;
+
     Route::put('/admin/stamp_correction_request/approve/{attendance_correct_request_id}',[AdminCorrectionController::class, 'approve']);
 
 });
