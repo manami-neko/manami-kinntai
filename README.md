@@ -7,7 +7,7 @@ coachtech 勤怠管理アプリ
 ```
 Dockerビルド
 
-  1. git clone git@github.com:manami-neko/manami-furima.git
+  1. git clone git@github.com:manami-neko/manami-kinnti.git
   2. コンテナ作成
      docker-compose up -d --build
 
