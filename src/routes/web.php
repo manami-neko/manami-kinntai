@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\BreakTimeController;
 use App\Http\Controllers\CorrectionRequestController;
-
+use App\Http\Controllers\Admin\CorrectionRequestController as AdminCorrectionRequestController;
 
 
 
@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     // 休憩終了
     Route::patch('/break/end', [BreakTimeController::class, 'update'])->name('break.end');
 
-    Route::get('/attendance/list', [AttendanceController::class, 'index']);
+    Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('attendance.list');
 
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'show'])->name('users.show');
 
@@ -69,8 +69,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/staff/list', [AdminUserController::class, 'staffList']);
 
-     Route::get('/admin/attendance/staff/{id}', [AdminAttendanceController::class, 'staffAttendanceList'])->name('admin.attendance.user');;
+    Route::get('/admin/attendance/staff/{id}', [AdminAttendanceController::class, 'staffAttendanceList'])->name('admin.attendance.user');
 
-    Route::put('/admin/stamp_correction_request/approve/{attendance_correct_request_id}',[AdminCorrectionController::class, 'approve']);
+    Route::get('/admin/stamp_correction_request/list', [AdminCorrectionRequestController::class, 'userList']);
+
+    Route::get('/admin/stamp_correction_request/approve/{attendance_correct_request_id}',[AdminCorrectionRequestController::class, 'show'])->name('admin.show');
+
+    Route::put('/admin/stamp_correction_request/approve/{attendance_correct_request_id}',[AdminCorrectionRequestController::class, 'approve'])->name('admin.approve');
 
 });

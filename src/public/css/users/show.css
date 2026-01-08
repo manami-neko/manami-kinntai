@@ -1,5 +1,5 @@
 /* 背景 */
-.attendance-detail {
+main {
     background-color: #f6f6f6;
     min-height: 100vh;
     padding: 40px 0;
@@ -20,6 +20,10 @@
 }
 
 /* タイトル */
+.attendance-show__header {
+    margin-bottom: 20px;
+}
+
 .attendance-show__title {
     font-size: 30px;
     font-weight: bold;
@@ -66,40 +70,29 @@
     border-bottom: 2px solid #e1e1e1;
 }
 
-/* 日付 */
-.show-cell {
-    font-weight: bold;
-}
-
-/* 時刻表示 */
-.time-box {
-    display: inline-block;
-    min-width: 80px;
-    padding: 6px 10px;
-    border: 1px solid #e1e1e1;
+.show-table input[type="text"] {
+    width: 90px;
+    padding: 6px 8px;
+    border: none;
     border-radius: 4px;
     text-align: center;
     font-weight: bold;
+    font-size: 16px;
     background: #fff;
 }
 
-.time-box.empty {
-    background: #fafafa;
+/* 備考欄 */
+.show-table input[name="note"] {
+    width: 100%;
+    text-align: left;
+    font-weight: normal;
 }
 
-/* 〜 */
-.tilde {
+/* 〜 の位置調整 */
+.show-table td:nth-child(3) {
+    width: 40px;
     text-align: center;
     font-weight: bold;
-}
-
-/* 備考 */
-.remark-box {
-    display: inline-block;
-    padding: 10px 14px;
-    border: 1px solid #e1e1e1;
-    border-radius: 4px;
-    background: #fff;
 }
 
 /* ボタン */
@@ -112,7 +105,7 @@
 .edit-btn {
     background: #000;
     color: #fff;
-    font-size: 14px;
+    font-size: 22px;
     padding: 8px 24px;
     border: none;
     border-radius: 4px;
@@ -121,4 +114,11 @@
 
 .edit-btn:hover {
     opacity: 0.8;
+}
+
+/* 承認待ちメッセージ */
+.pending-message {
+    margin-top: 20px;
+    color: #d00;
+    font-size: 14px;
 }

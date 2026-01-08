@@ -65,12 +65,22 @@ class AttendanceController extends Controller
                 $month->copy()->startOfMonth(),
                 $month->copy()->endOfMonth(),
             ])
-            ->orderBy('day')
-            ->get();
+            ->get()
+            ->keyBy(fn ($a) => Carbon::parse($a->day)->toDateString());
+
+        $dates = collect();
+        $start = $month->copy()->startOfMonth();
+        $end   = $month->copy()->endOfMonth();
+
+        for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+            $dates->push($date->copy());
+        }
+
 
         return view('admin.user', [
             'user'       => $user,
             'month'      => $month,
+            'dates'       => $dates,
             'attendances'=> $attendances,
             'prevMonth'  => $month->copy()->subMonth()->format('Y-m'),
             'nextMonth'  => $month->copy()->addMonth()->format('Y-m'),
@@ -93,26 +103,4 @@ class AttendanceController extends Controller
             ->route('admin.attendance.show', $id);
     }
 
-
-    public function approve(Correction $correction)
-    {
-        DB::transaction(function () use ($correction) {
-
-            // ① attendance を更新
-            $attendance = $correction->attendance;
-
-            $attendance->update([
-                'start' => $correction->start,
-                'end'   => $correction->end,
-            ]);
-
-            // ② corrections を承認済みに
-            $correction->update([
-                'status' => 'approved',
-            ]);
-        });
-
-        return redirect()
-            ->back();
-    }
 }

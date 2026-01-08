@@ -1,5 +1,5 @@
 /* 背景 */
-.attendance-detail {
+main {
     background-color: #f6f6f6;
     min-height: 100vh;
     padding: 40px 0;
@@ -20,12 +20,16 @@
 }
 
 /* タイトル */
+.attendance-show__header {
+    margin-bottom: 20px;
+}
+
 .attendance-show__title {
     font-size: 30px;
     font-weight: bold;
     position: relative;
     padding-left: 30px;
-    margin: 30px;
+    margin: 0;
 }
 
 .attendance-show__title::before {
@@ -66,42 +70,6 @@
     border-bottom: 2px solid #e1e1e1;
 }
 
-/* 日付 */
-.show-cell {
-    font-weight: bold;
-}
-
-/* 時刻表示 */
-.time-box {
-    display: inline-block;
-    min-width: 80px;
-    padding: 6px 10px;
-    border: 1px solid #e1e1e1;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: bold;
-    background: #fff;
-}
-
-.time-box.empty {
-    background: #fafafa;
-}
-
-/* 〜 */
-.tilde {
-    text-align: center;
-    font-weight: bold;
-}
-
-/* 備考 */
-.remark-box {
-    display: inline-block;
-    padding: 10px 14px;
-    border: 1px solid #e1e1e1;
-    border-radius: 4px;
-    background: #fff;
-}
-
 /* ボタン */
 .attendance-show__button {
     max-width: 900px;
@@ -112,7 +80,7 @@
 .edit-btn {
     background: #000;
     color: #fff;
-    font-size: 14px;
+    font-size: 22px;
     padding: 8px 24px;
     border: none;
     border-radius: 4px;

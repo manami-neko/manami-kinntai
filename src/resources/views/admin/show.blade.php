@@ -6,109 +6,90 @@
 
 @section('content')
 
-<main class="attendance-show">
+<main>
+    <div class="attendance-show">
 
-    {{-- タイトル --}}
-    <div class="attendance-show__header">
-        <h2 class="attendance-show__title">勤怠詳細</h2>
-    </div>
+        {{-- タイトル --}}
+        <div class="attendance-show__header">
+            <h2 class="attendance-show__title">勤怠詳細</h2>
+        </div>
 
-    {{-- 詳細カード --}}
-    <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="post" class="card attendance-show__card">
-        @csrf
-        @method('PUT')
-    
-        <table class="show-table">
+        {{-- 詳細カード --}}
+        
+        <div class="card attendance-show__card">
+            <table class="show-table">
 
-            {{-- 名前 --}}
-            <tr>
-                <th>名前</th>
-                <td colspan="3">
-                    {{ $attendance->user->name }}
-                </td>
-            </tr>
-
-            {{-- 日付 --}}
-            <tr>
-                <th>日付</th>
-                <td colspan="3">
-                    {{ \Carbon\Carbon::parse($attendance->day)->format('Y年n月j日') }}
-                </td>
-            </tr>
-
-            {{-- 出勤・退勤 --}}
-            <tr>
-                <th>出勤・退勤</th>
-                <td>
-                     <input type="text" name="start" value="{{ old('start', \Carbon\Carbon::parse($attendance->start)->format('H:i')) }}">
-                </td>
-                <td>〜</td>
-                <td>
-                    <input type="text" name="end" value="{{ old('end', optional($attendance->end) ? \Carbon\Carbon::parse($attendance->end)->format('H:i') : '') }}">
-                </td>
-            </tr>
-
-            {{-- 休憩 --}}
-            @foreach($attendance->breakTimes as $index => $break)
+                {{-- 名前 --}}
                 <tr>
-                    <th>休憩{{ $index + 1 }}</th>
-                    <td>
-                        <input type="text" name="breaks[{{ $index }}][start]" value="{{ old("breaks.$index.start", \Carbon\Carbon::parse($break->start)->format('H:i')) }}">
-                    </td>
-                    <td>〜</td>
-                    <td>
-                        <input type="text" name="breaks[{{ $index }}][end]" value="{{ old("breaks.$index.end", optional($break->end) ? \Carbon\Carbon::parse($break->end)->format('H:i') : '') }}">
+                    <th>名前</th>
+                    <td colspan="3">
+                        {{ $correction->attendance->user->name }}
                     </td>
                 </tr>
-            @endforeach
 
-            @php
-                $newIndex = $attendance->breakTimes->count();
-            @endphp
+                {{-- 日付 --}}
+                <tr>
+                    <th>日付</th>
+                    <td colspan="3">
+                        {{ \Carbon\Carbon::parse($correction->attendance->day)->format('Y年') }}
+                        &emsp;
+                        {{ \Carbon\Carbon::parse($correction->attendance->day)->format('n月j日') }}
+                    </td>
+                </tr>
 
-<tr>
-    <th>休憩{{ $newIndex + 1 }}</th>
-    <td>
-        <input type="text"
-            name="breaks[{{ $newIndex }}][start]"
-            value="{{ old("breaks.$newIndex.start") }}">
-    </td>
-    <td>〜</td>
-    <td>
-        <input type="text"
-            name="breaks[{{ $newIndex }}][end]"
-            value="{{ old("breaks.$newIndex.end") }}">
-    </td>
-</tr>
+                {{-- 出勤・退勤 --}}
+                <tr>
+                    <th>出勤・退勤</th>
+                    <td colspan="3" class="time-cell">
+                        {{ \Carbon\Carbon::parse($correction->start)->format('H:i') }}
+                        &emsp;〜&emsp;
+                        {{ \Carbon\Carbon::parse($correction->end)->format('H:i') }}
+                    </td>
+                </tr>
 
-            {{-- 備考 --}}
-            <tr>
-                <th>備考</th>
-                <td colspan="3">
-                    <input type="text" name="note"
-                    value="{{ old('note', optional($attendance->corrections->last())->note) }}">
-                </td>
-            </tr>
+                {{-- 休憩 --}}
+                @foreach($correction->attendance->breakTimes as $index => $break)
+                    <tr>
+                        <th>休憩{{ $index + 1 }}</th>
+                        <td colspan="3" class="time-cell">
+                            {{ \Carbon\Carbon::parse($break->start)->format('H:i') }}
+                            〜
+                            {{ $break->end
+                                ? \Carbon\Carbon::parse($break->end)->format('H:i')
+                                : '' }}
+                        </td>
+                    </tr>
+                @endforeach
 
-        </table>
+                @php
+                    $newIndex = $correction->attendance->breakTimes->count();
+                @endphp
+
+                <tr>
+                    <th>休憩{{ $correction->attendance->breakTimes->count() + 1 }}</th>
+                    <td colspan="3" class="time-cell empty">
+                        {{-- 空欄 --}}
+                    </td>
+
+                {{-- 備考 --}}
+                <tr>
+                    <th>備考</th>
+                    <td colspan="3">
+                        {{ $correction->note }}
+                    </td>
+                </tr>
+
+            </table>
+        </div>
     </div>
-
-    {{-- 修正ボタン --}}
-    @if(!$pending)
-    <div class="attendance-show__button">
-        <button type="submit"
-        class="edit-btn">修正</button>
-    </div>
-    @endif
-
-
-    @if($pending)
-        <p class="pending-message">
-            *承認待ちのため修正できません。
-        </p>
-    @endif
-
-
+        {{-- 修正ボタン --}}
+        @if($correction->status === 'pending')
+            <form action="{{ route('admin.approve', $correction->id) }}" method="post" class="attendance-show__button">
+                @csrf
+                @method('PUT')
+                <button class="edit-btn">承認</button>
+            </form>
+        @endif
 </main>
 
 

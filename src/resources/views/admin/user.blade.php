@@ -43,23 +43,31 @@
             </thead>
 
             <tbody>
-                @foreach($attendances as $attendance)
-                    <tr>
-                        <td>
-                            {{ \Carbon\Carbon::parse($attendance->day)->format('m/d') }}
-                            ({{ \Carbon\Carbon::parse($attendance->day)->isoFormat('ddd') }})
-                        </td>
-                        <td>{{ optional($attendance->start)->format('H:i') }}</td>
-                        <td>{{ optional($attendance->end)->format('H:i') }}</td>
-                        <td>{{ $attendance->break_time }}</td>
-                        <td>{{ $attendance->total_time }}</td>
-                        <td>
-                            <a href="{{ route('admin.attendance.show', $attendance->id) }}">
-                                詳細
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
+                @foreach($dates as $date)
+@php
+    $attendance = $attendances[$date->toDateString()] ?? null;
+@endphp
+<tr>
+    <td>
+        {{ $date->format('m/d') }}
+        ({{ $date->isoFormat('ddd') }})
+    </td>
+
+    <td>{{ optional($attendance?->start)->format('H:i') }}</td>
+    <td>{{ optional($attendance?->end)->format('H:i') }}</td>
+    <td>{{ $attendance->break_time ?? '' }}</td>
+    <td>{{ $attendance->total_time ?? '' }}</td>
+
+    <td>
+        @if($attendance)
+            <a href="{{ route('admin.attendance.show', $attendance->id) }}">
+                詳細
+            </a>
+        @endif
+    </td>
+</tr>
+@endforeach
+
             </tbody>
         </table>
     </div>

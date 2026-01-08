@@ -70,7 +70,9 @@ class AttendanceController extends Controller
             ->where('user_id', auth()->id())
             ->whereBetween('day', [$startOfMonth, $endOfMonth])
             ->get()
-            ->keyBy('day'); // ← 日付をキーにする
+            ->keyBy(function ($attendance) {
+        return Carbon::parse($attendance->day)->toDateString();
+        }); // ← 日付をキーにする
 
         // 月の日付一覧
         $dates = CarbonPeriod::create($startOfMonth, $endOfMonth);

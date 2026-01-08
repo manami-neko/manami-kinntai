@@ -1,0 +1,110 @@
+/* ===== 申請一覧 全体 ===== */
+.request-list {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+
+main {
+    background-color: #f6f6f6;
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
+/* ===== タイトル ===== */
+.request-list h2 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    position: relative;
+    padding-left: 30px;
+}
+
+.request-list h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 40px;
+    background: #000000;
+}
+
+/* ===== テーブル ===== */
+.request-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+
+}
+
+/* ===== ヘッダー ===== */
+.request-list thead {
+    max-width: 900px;
+    margin: 0 auto 25px;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.request-list th {
+    padding: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #737373;
+    border-bottom: 3px solid #E1E1E1;
+}
+
+/* ===== 本文 ===== */
+.request-list td {
+    padding: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid #E1E1E1;
+    color: #737373;
+}
+
+/* ===== 詳細リンク ===== */
+.request-list a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.request-list a:hover {
+    text-decoration: underline;
+}
+
+/* ===== タブ ===== */
+.request-tabs {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #000000;
+}
+
+.request-tabs .tab {
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    color: #000000;
+    position: relative;
+}
+
+.request-tabs .tab.active {
+    font-size: 16px;
+    color: #000000;
+    font-weight: 700;
+}
+
+/* .request-tabs .tab.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 2px;
+    background: #000;
+} */
